@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GramBazaar - ग्राम बाज़ार</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --green: #176b45;
+    --dark: #104b32;
+    --light: #f3f8f2;
+    --orange: #ffb547;
+    --white: #ffffff;
+}
+
+body {
+    font-family: Arial, "Noto Sans Devanagari", sans-serif;
+    background: var(--light);
+    color: #222;
+}
+
+header {
+    background: var(--green);
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: var(--orange);
+}
+
+.header-cart {
+    background: var(--orange);
+    color: #222;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hero {
+    padding: 35px 5%;
+    background: linear-gradient(120deg, #e3f3df, #fff4dc);
+    text-align: center;
+}
+
+.hero h1 {
+    color: var(--dark);
+    font-size: clamp(27px, 5vw, 43px);
+    margin-bottom: 12px;
+}
+
+.hero p {
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.search-box {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto 0;
+    display: flex;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+.container {
+    padding: 25px 5%;
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 18px;
+    color: var(--dark);
+}
+
+.categories {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.category-btn {
+    border: 1px solid #cbdacb;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.category-btn.active,
+.category-btn:hover {
+    background: var(--green);
+    color: white;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.product {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px #0000000d;
+    border: 1px solid #edf0eb;
+    transition: transform .2s;
+}
+
+.product:hover {
+    transform: translateY(-4px);
+}
+
+.product-image {
+    height: 145px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f6f6ed;
+    font-size: 65px;
+}
+
+.product-info {
+    padding: 14px;
+}
+
+.product-info h3 {
+    font-size: 17px;
+    margin-bottom: 7px;
+}
+
+.product-info p {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--green);
+    margin-bottom: 12px;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 11px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background: var(--dark);
+}
+
+.cart-section,
+.checkout {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 30px;
+    box-shadow: 0 3px 15px #0000000b;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-info small {
+    color: #666;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    background: #e5f1e7;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.total {
+    font-size: 22px;
+    color: var(--green);
+    font-weight: bold;
+    text-align: right;
+    margin-top: 18px;
+}
+
+.checkout h2 {
+    margin-bottom: 15px;
+    color: var(--dark);
+}
+
+.checkout input,
+.checkout textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.checkout textarea {
+    resize: vertical;
+    min-height: 85px;
+}
+
+.whatsapp-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 9px;
+    background: #20b95a;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.whatsapp-btn:hover {
+    background: #159447;
+}
+
+.note {
+    color: #666;
+    font-size: 13px;
+    margin-top: 12px;
+    line-height: 1.7;
+}
+
+.empty {
+    padding: 15px 0;
+    color: #777;
+}
+
+footer {
+    margin-top: 35px;
+    background: var(--dark);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+    line-height: 2;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .products {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 13px 4%;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    .hero {
+        padding: 28px 5%;
+    }
+
+    .container {
+        padding: 20px 4%;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .product-image {
+        height: 110px;
+        font-size: 48px;
+    }
+
+    .product-info {
+        padding: 11px;
+    }
+
+    .product-info h3 {
+        font-size: 15px;
+    }
+
+    .product-info p {
+        font-size: 12px;
+    }
+
+    .price {
+        font-size: 17px;
+    }
+
+    .add-btn {
+        padding: 10px 5px;
+        font-size: 13px;
+    }
+
+    .cart-item {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🌿 Gram<span>Bazaar</span></div>
+    <button class="header-cart" onclick="goToCart()">
+        🛒 कार्ट (<span id="cartCount">0</span>)
+    </button>
+</header>
+
+<section class="hero">
+    <h1>आपके घर का अपना बाज़ार 🏡</h1>
+    <p>
+        शहडोल और आसपास के क्षेत्र के लिए<br>
+        राशन और घरेलू सामान की आसान ऑनलाइन खरीदारी।
+    </p>
+
+    <div class="search-box">
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="🔍 सामान खोजें... जैसे चावल, तेल, साबुन"
+            oninput="renderProducts()"
+        >
+    </div>
+</section>
+
+<main class="container">
+
+    <h2 class="section-title">🛍️ सामान की कैटेगरी</h2>
+
+    <div class="categories">
+        <button class="category-btn active"
+                onclick="setCategory('सभी', this)">सभी सामान</button>
+
+        <button class="category-btn"
+                onclick="setCategory('राशन', this)">🌾 राशन</button>
+
+        <button class="category-btn"
+                onclick="setCategory('मसाले', this)">🌶️ मसाले</button>
+
+        <button class="category-btn"
+                onclick="setCategory('सफाई', this)">🧹 सफाई</button>
+
+        <button class="category-btn"
+                onclick="setCategory('घरेलू', this)">🏠 घरेलू सामान</button>
+
+        <button class="category-btn"
+                onclick="setCategory('स्थानीय', this)">🌿 स्थानीय उत्पाद</button>
+    </div>
+
+    <h2 class="section-title">⭐ हमारे उत्पाद</h2>
+
+    <div class="products" id="products"></div>
+
+    <section class="cart-section" id="cartSection">
+        <h2 class="section-title">🛒 आपका शॉपिंग कार्ट</h2>
+        <div id="cartItems"></div>
+        <div class="total" id="cartTotal">कुल: ₹0</div>
+    </section>
+
+    <section class="checkout" id="checkout">
+        <h2>📦 ऑर्डर की जानकारी</h2>
+
+        <form id="orderForm">
+            <input
+                type="text"
+                id="customerName"
+                placeholder="आपका पूरा नाम"
+                maxlength="80"
+                required
+            >
+
+            <input
+                type="tel"
+                id="customerPhone"
+                placeholder="10 अंकों का मोबाइल नंबर"
+                inputmode="numeric"
+                pattern="[6-9][0-9]{9}"
+                maxlength="10"
+                required
+            >
+
+            <textarea
+                id="customerAddress"
+                placeholder="पूरा पता: गाँव, मोहल्ला, शहर और पिन कोड"
+                maxlength="500"
+                required
+            ></textarea>
+
+            <textarea
+                id="customerNote"
+                placeholder="कोई अतिरिक्त जानकारी (वैकल्पिक)"
+                maxlength="300"
+            ></textarea>
+
+            <button type="submit" class="whatsapp-btn">
+                📲 WhatsApp पर ऑर्डर भेजें
+            </button>
+        </form>
+
+        <p class="note">
+            नोट: ऑर्डर भेजने के बाद WhatsApp खुलेगा।
+            कृपया संदेश जाँचकर Send बटन दबाएँ।
+            कीमतें नमूने के लिए हैं; वास्तविक कीमत और डिलीवरी
+            विक्रेता से पुष्टि करें।
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <h2>🌿 GramBazaar – ग्राम बाज़ार</h2>
+    <p>अपने क्षेत्र के उत्पाद, आपके घर तक।</p>
+    <p>📍 शहडोल और आसपास के क्षेत्र</p>
+    <p>📱 WhatsApp ऑर्डर की सुविधा</p>
+    <p>© 2026 GramBazaar | सभी अधिकार सुरक्षित</p>
+</footer>
+
+<script>
+const SELLER_WHATSAPP = "919368465315";
+
+const products = [
+    {
+        id: 1,
+        name: "चावल",
+        detail: "1 किलो • सामान्य चावल",
+        price: 55,
+        unit: "किलो",
+        emoji: "🍚",
+        category: "राशन"
+    },
+    {
+        id: 2,
+        name: "गेहूँ का आटा",
+        detail: "1 किलो • गेहूँ का आटा",
+        price: 40,
+        unit: "किलो",
+        emoji: "🌾",
+        category: "राशन"
+    },
+    {
+        id: 3,
+        name: "अरहर दाल",
+        detail: "1 किलो • दाल",
+        price: 130,
+        unit: "किलो",
+        emoji: "🫘",
+        category: "राशन"
+    },
+    {
+        id: 4,
+        name: "चीनी",
+        detail: "1 किलो • चीनी",
+        price: 48,
+        unit: "किलो",
+        emoji: "🍚",
+        category: "राशन"
+    },
+    {
+        id: 5,
+        name: "खाने का तेल",
+        detail: "1 लीटर • रिफाइंड तेल",
+        price: 150,
+        unit: "लीटर",
+        emoji: "🫗",
+        category: "राशन"
+    },
+    {
+        id: 6,
+        name: "नमक",
+        detail: "1 किलो • पैक नमक",
+        price: 25,
+        unit: "पैक",
+        emoji: "🧂",
+        category: "राशन"
+    },
+    {
+        id: 7,
+        name: "हल्दी पाउडर",
+        detail: "100 ग्राम",
+        price: 35,
+        unit: "पैक",
+        emoji: "🌕",
+        category: "मसाले"
+    },
+    {
+        id: 8,
+        name: "लाल मिर्च",
+        detail: "100 ग्राम",
+        price: 40,
+        unit: "पैक",
+        emoji: "🌶️",
+        category: "मसाले"
+    },
+    {
+        id: 9,
+        name: "धनिया पाउडर",
+        detail: "100 ग्राम",
+        price: 30,
+        unit: "पैक",
+        emoji: "🌿",
+        category: "मसाले"
+    },
+    {
+        id: 10,
+        name: "नहाने का साबुन",
+        detail: "1 साबुन",
+        price: 35,
+        unit: "पीस",
+        emoji: "🧼",
+        category: "सफाई"
+    },
+    {
+        id: 11,
+        name: "कपड़े धोने का पाउडर",
+        detail: "1 किलो",
+        price: 90,
+        unit: "पैक",
+        emoji: "🫧",
+        category: "सफाई"
+    },
+    {
+        id: 12,
+        name: "डिशवॉश बार",
+        detail: "1 पीस",
+        price: 20,
+        unit: "पीस",
+        emoji: "🧽",
+        category: "सफाई"
+    },
+    {
+        id: 13,
+        name: "झाड़ू",
+        detail: "घरेलू उपयोग",
+        price: 80,
+        unit: "पीस",
+        emoji: "🧹",
+        category: "घरेलू"
+    },
+    {
+        id: 14,
+        name: "बाल्टी",
+        detail: "प्लास्टिक बाल्टी",
+        price: 120,
+        unit: "पीस",
+        emoji: "🪣",
+        category: "घरेलू"
+    },
+    {
+        id: 15,
+        name: "स्टील की थाली",
+        detail: "घरेलू उपयोग",
+        price: 100,
+        unit: "पीस",
+        emoji: "🍽️",
+        category: "घरेलू"
+    },
+    {
+        id: 16,
+        name: "स्थानीय शहद",
+        detail: "250 ग्राम • नमूना उत्पाद",
+        price: 180,
+        unit: "बोतल",
+        emoji: "🍯",
+        category: "स्थानीय"
+    },
+    {
+        id: 17,
+        name: "स्थानीय चना",
+        detail: "1 किलो • नमूना उत्पाद",
+        price: 85,
+        unit: "किलो",
+        emoji: "🫘",
+        category: "स्थानीय"
+    },
+    {
+        id: 18,
+        name: "स्थानीय हल्दी",
+        detail: "100 ग्राम • नमूना उत्पाद",
+        price: 50,
+        unit: "पैक",
+        emoji: "🌱",
+        category: "स्थानीय"
+    }
+];
+
+let cart = {};
+let selectedCategory = "सभी";
+
+const money = amount =>
+    "₹" + amount.toLocaleString("en-IN");
+
+function setCategory(category, button) {
+    selectedCategory = category;
+
+    document.querySelectorAll(".category-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    renderProducts();
+}
+
+function renderProducts() {
+    const search = document.getElementById("searchInput")
+        .value.trim().toLowerCase();
+
+    const filtered = products.filter(product => {
+        const matchesCategory =
+            selectedCategory === "सभी" ||
+            product.category === selectedCategory;
+
+        const matchesSearch =
+            (product.name + " " + product.detail + " " +
+            product.category).toLowerCase().includes(search);
+
+        return matchesCategory && matchesSearch;
+    });
+
+    const container = document.getElementById("products");
+
+    if (!filtered.length) {
+        container.innerHTML =
+            '<p class="empty">कोई सामान नहीं मिला। दूसरा नाम खोजें।</p>';
+        return;
+    }
+
+    container.innerHTML = filtered.map(product => `
+        <article class="product">
+            <div class="product-image">${product.emoji}</div>
+            <div class="product-info">
+                <h3>${product.name}</h3>
+                <p>${product.detail}</p>
+                <div class="price">${money(product.price)}</div>
+                <button class="add-btn"
+                    onclick="addToCart(${product.id})">
+                    ${cart[product.id]
+                        ? "🛒 कार्ट में (" + cart[product.id] + ")"
+                        : "+ कार्ट में जोड़ें"}
+                </button>
+            </div>
+        </article>
+    `).join("");
+}
+
+function addToCart(id) {
+    cart[id] = (cart[id] || 0) + 1;
+    updateCart();
+    renderProducts();
+}
+
+function changeQuantity(id, change) {
+    cart[id] = (cart[id] || 0) + change;
+
+    if (cart[id] <= 0) {
+        delete cart[id];
+    }
+
+    updateCart();
+    renderProducts();
+}
+
+function updateCart() {
+    const items = Object.entries(cart);
+    const cartItems = document.getElementById("cartItems");
+
+    const count = items.reduce(
+        (sum, [id, quantity]) => sum + quantity, 0
+    );
+
+    const total = items.reduce((sum, [id, quantity]) => {
+        const product = products.find(p => p.id === Number(id));
+        return sum + product.price * quantity;
+    }, 0);
+
+    document.getElementById("cartCount").textContent = count;
+    document.getElementById("cartTotal").textContent =
+        "कुल: " + money(total);
+
+    if (!items.length) {
+        cartItems.innerHTML =
+            '<p class="empty">आपका कार्ट अभी खाली है। ऊपर से सामान जोड़ें।</p>';
+        return;
+    }
+
+    cartItems.innerHTML = items.map(([id, quantity]) => {
+        const product = products.find(p => p.id === Number(id));
+
+        return `
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    <strong>${product.emoji} ${product.name}</strong><br>
+                    <small>${money(product.price)} × ${quantity}
+                    = ${money(product.price * quantity)}</small>
+                </div>
+
+                <div class="quantity">
+                    <button type="button"
+                        aria-label="मात्रा घटाएँ"
+                        onclick="changeQuantity(${id}, -1)">−</button>
+
+                    <strong>${quantity}</strong>
+
+                    <button type="button"
+                        aria-label="मात्रा बढ़ाएँ"
+                        onclick="changeQuantity(${id}, 1)">+</button>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function goToCart() {
+    document.getElementById("cartSection")
+        .scrollIntoView({ behavior: "smooth" });
+}
+
+document.getElementById("orderForm").addEventListener(
+    "submit",
+    function(event) {
+        event.preventDefault();
+
+        const items = Object.entries(cart);
+
+        if (!items.length) {
+            alert("भाई, पहले कार्ट में सामान जोड़ें।");
+            goToCart();
+            return;
+        }
+
+        const name =
+            document.getElementById("customerName").value.trim();
+
+        const phone =
+            document.getElementById("customerPhone").value.trim();
+
+        const address =
+            document.getElementById("customerAddress").value.trim();
+
+        const note =
+            document.getElementById("customerNote").value.trim();
+
+        if (!/^[6-9][0-9]{9}$/.test(phone)) {
+            alert("कृपया सही 10 अंकों का मोबाइल नंबर भरें।");
+            return;
+        }
+
+        if (!name || !address) {
+            alert("कृपया नाम और पूरा पता भरें।");
+            return;
+        }
+
+        let total = 0;
+
+        let message =
+            "🛒 *नया ऑर्डर - GramBazaar ग्राम बाज़ार*%0A%0A";
+
+        message += "👤 *ग्राहक:* " +
+            encodeURIComponent(name) + "%0A";
+
+        message += "📱 *मोबाइल:* " +
+            encodeURIComponent(phone) + "%0A";
+
+        message += "📍 *पता:* " +
+            encodeURIComponent(address) + "%0A%0A";
+
+        message += "*ऑर्डर के उत्पाद:*%0A";
+
+        items.forEach(([id, quantity], index) => {
+            const product = products.find(
+                p => p.id === Number(id)
+            );
+
+            const subtotal = product.price * quantity;
+            total += subtotal;
+
+            message += (index + 1) + ". " +
+                encodeURIComponent(product.name) +
+                " × " + quantity +
+                " = " + encodeURIComponent(money(subtotal)) +
+                "%0A";
+        });
+
+        message += "%0A*कुल अनुमानित कीमत: " +
+            encodeURIComponent(money(total)) + "*";
+
+        message += "%0A%0A*डिलीवरी पता:* " +
+            encodeURIComponent(address);
+
+        if (note) {
+            message += "%0A%0A*अतिरिक्त जानकारी:* " +
+                encodeURIComponent(note);
+        }
+
+        message += "%0A%0Aकृपया ऑर्डर और डिलीवरी की पुष्टि करें।";
+
+        const whatsappURL =
+            "https://wa.me/" + SELLER_WHATSAPP +
+            "?text=" + message;
+
+        window.open(whatsappURL, "_blank");
+    }
+);
+
+renderProducts();
+updateCart();
+</script>
+
+</body>
+</html>
